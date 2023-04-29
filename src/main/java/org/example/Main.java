@@ -9,43 +9,44 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         try {
-            Scanner scanner = new Scanner(System.in);
+            Scanner xmlScanner = new Scanner(System.in);
             System.out.print("Enter book id: ");
-            String bookID = scanner.nextLine();
-            scanner.close();
+            String bookID = xmlScanner.nextLine();
+            xmlScanner.close();
             File inputFile = new File("src/sample.xml");
 
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document xmlDocument = documentBuilder.parse(inputFile);
 
-            doc.getDocumentElement().normalize();
+            xmlDocument.getDocumentElement().normalize();
 
-            NodeList nList = doc.getElementsByTagName("book");
+            NodeList xmlNodeList = xmlDocument.getElementsByTagName("book");
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
+            for (int i = 0; i < xmlNodeList.getLength(); i++) {
+                Node xmlNode = xmlNodeList.item(i);
 
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
+                if (xmlNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element xmlElement = (Element) xmlNode;
 
-                    String id = eElement.getAttribute("id");
+                    String id = xmlElement.getAttribute("id");
 
                     if (id.equals(bookID)) {
-                        String author = eElement.getElementsByTagName("author").item(0).getTextContent();
-                        String title = eElement.getElementsByTagName("title").item(0).getTextContent();
-                        String genre = eElement.getElementsByTagName("genre").item(0).getTextContent();
-                        String price = eElement.getElementsByTagName("price").item(0).getTextContent();
-                        String publish_date = eElement.getElementsByTagName("publish_date").item(0).getTextContent();
-                        String description = eElement.getElementsByTagName("description").item(0).getTextContent();
+                        String bookPublishDate = xmlElement.getElementsByTagName("publish_date").item(0).getTextContent();
+                        String description = xmlElement.getElementsByTagName("description").item(0).getTextContent();
+                        String price = xmlElement.getElementsByTagName("price").item(0).getTextContent();
+                        String bookAuthor = xmlElement.getElementsByTagName("author").item(0).getTextContent();
+                        String bookTitle = xmlElement.getElementsByTagName("title").item(0).getTextContent();
+                        String bookGenre = xmlElement.getElementsByTagName("genre").item(0).getTextContent();
+
 
                         System.out.println("Book ID: " + id);
-                        System.out.println("Author: " + author);
-                        System.out.println("Title: " + title);
-                        System.out.println("Genre: " + genre);
+                        System.out.println("Author: " + bookAuthor);
+                        System.out.println("Title: " + bookTitle);
                         System.out.println("Price: " + price);
-                        System.out.println("Publish Date: " + publish_date);
+                        System.out.println("Publish Date: " + bookPublishDate);
                         System.out.println("Description: " + description);
+                        System.out.println("Genre: " + bookGenre);
                         break;
                     }
                 }
